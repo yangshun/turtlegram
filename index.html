@@ -41,7 +41,7 @@
 	<!-- Custom styling -->
 	<link href="css/style.css" rel="stylesheet">
 	
-	<title>Turtlepie</title>
+	<title>TurtlePie</title>
 	<script type="text/javascript"> 
 		// output functions are configurable.  This one just appends some text
 		// to a pre element.
@@ -61,13 +61,28 @@
 		// configure the output function
 		// call Sk.importMainWithBody()
 		function runit() { 
-		   var prog = myCodeMirror.getValue(); 
-		   var mypre = document.getElementById("output"); 
-		   mypre.innerHTML = ''; 
-		   Sk.canvas = "turtle-canvas";
-		   Sk.pre = "output";
-		   Sk.configure({output:outf, read:builtinRead}); 
-		   eval(Sk.importMainWithBody("<stdin>",false,prog)); 
+			var prog = myCodeMirror.getValue();
+			if ($('#turtle-animation').is(":checked")) {
+				
+				var lines = prog.split('\n');
+				// console.log(lines);
+				for (var i = 0; i < lines.length; i++) {
+					if (lines[i].indexOf('turtle.Turtle()') != -1) {
+						var turtle_var = $.trim(lines[i].split('=')[0]);
+						lines.splice(i+1, 0, turtle_var + '.speed(0)');
+					}
+				}
+				prog = lines.join('\n');
+			}
+
+			var mypre = document.getElementById("output"); 
+			mypre.innerHTML = ''; 
+			Sk.canvas = "turtle-canvas";
+			Sk.pre = "output";
+			Sk.configure({output:outf, read:builtinRead}); 
+			eval(Sk.importMainWithBody("<stdin>",false,prog)); 
+
+			
 		} 
 
 		// clears the editor
@@ -130,6 +145,13 @@
 		var starCode = "import turtle\n\nt = turtle.Turtle()\n\nn = 5\nx = 50\n\nfor i in range(n*2):\n\t\tt.forward(x)\n\t\tif i%2 == 0:\n\t\t\tt.left(180-36)\n\t\telse:\n\t\t\tt.right(90-36/2)";
 		
 		var defaultCode = "import turtle\n\nt = turtle.Turtle()";
+
+		function submit() {
+			var dataURL = document.getElementById('turtle-canvas').toDataURL();      
+      		document.getElementById('turtle-image').src = dataURL;
+			// $('#turtle-image').attr('src', $('#turtle-canvas').toDataURL());
+		}
+
 	</script> 
 </head>
 <body>
@@ -158,22 +180,30 @@
 			</div>
 		</div>
 		<div class="row">
+			<div class="span5">	 		
+				<h3>Canvas</h3>
+				<canvas id="turtle-canvas" width="380" height="380"></mycanvas> 
+			</div>
 			<div class="span7">
 				<h3>Code</h2>
 				<textarea id="yourcode" cols="40" rows="10"></textarea><br />
-				<p style="display:inline-block">Code Samples: 
+				<p style="display:inline-block; width: 100%">
+					Draw without animation: <input type="checkbox" id="turtle-animation"/> 
+					<strong style="float:right">Tip: Press Ctrl/Cmd+Enter to run</strong><br/><br/>
+					Code Samples: 
 					<a href="#" onclick="setCode('circle')">Circle</a> |
 					<a href="#" onclick="setCode('star')">Star</a> |
 					<a href="#" onclick="setCode('spiral')">Spiral</a> 
 					<br/>
-					<strong>Tip: Press Ctrl/Cmd+Enter to run</strong>
 				</p>
-				<button class="button run-button" onclick="runit()">Run</button> 
-				<button class="button clear-button" onclick="clearEditor()">Clear</button> 
 	 		</div>
-			<div class="span5">	 		
-				<h3>Canvas</h3>
-				<canvas id="turtle-canvas" width="380" height="380"></mycanvas> 
+		</div>
+		<br/>
+		<div class="row">
+			<div class="span12">
+				<button class="button run-button" onclick="submit()">Submit</button> 
+				<button class="button run-button" onclick="runit()">Run</button> 
+				<button class="button clear-button" onclick="clearEditor()">Clear</button>
 			</div>
 		</div>
 		<hr/>
@@ -181,6 +211,11 @@
 			<div class="span12">
 				<h3>Console</h3>
 				<pre id="output" ></pre>  
+			</div>
+		</div>
+		<div class="row">
+			<div class="span12">
+				<img id="turtle-image" width="380" height="380" />
 			</div>
 		</div>
 </body>
