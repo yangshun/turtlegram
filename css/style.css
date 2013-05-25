@@ -50,6 +50,8 @@ button.clear-button {
   background-color: #FF9900;
   width: 100%;
   text-shadow: 0px 1px #000;
+  z-index: 1000;
+  border-bottom: 1px solid #cacaca;
 }
 
 .navigation a {
@@ -112,9 +114,14 @@ button.clear-button {
   padding-top: 30px;
   padding-left: 20px;
   padding-right: 20px;
+  padding-bottom: 20px;
   background-color: #eaeaea;
   border: 1px solid #cacaca;
   border-top: none;
+  -moz-box-shadow: 0px 0px 4px #ccc;
+  -webkit-box-shadow: 0px 0px 4px #ccc;
+  box-shadow: 0px 0px 4px #ccc;
+  margin-bottom: 50px;
 }
 
 /* Coding page */
