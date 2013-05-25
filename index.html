@@ -72,7 +72,7 @@
 
 		// clears the editor
 		function clearEditor() {
-			myCodeMirror.setValue('import turtle\n\nt = turtle.Turtle()');
+			myCodeMirror.setValue(defaultCode);
 			myCodeMirror.focus();
 		}
 		
@@ -105,7 +105,31 @@
 				'propagate':false,
 				'target':document
 			});
+
+			myCodeMirror.setValue(spiralCode);
 		})
+
+		function setCode(type) {
+			switch (type) {
+				case 'spiral':
+					myCodeMirror.setValue(spiralCode);
+					break;
+				case 'star':
+					myCodeMirror.setValue(starCode);
+					break;
+				case 'circle':
+					myCodeMirror.setValue(circleCode);
+					break;
+			}
+		}
+
+		var spiralCode = "import turtle\n\nt = turtle.Turtle()\n\nx = 50\n\nfor i in range(5):\n\tfor c in ['red', 'green', 'orange', 'blue']:\n\t\tt.color(c)\n\t\tt.forward(x)\n\t\tt.left(91)\n\t\tx = x+5";
+
+		var circleCode = "import turtle\n\nt = turtle.Turtle()\n\nx = 2\n\nfor i in range(180):\n\tt.forward(x)\n\tt.left(2)\n";
+
+		var starCode = "import turtle\n\nt = turtle.Turtle()\n\nn = 5\nx = 50\n\nfor i in range(n*2):\n\t\tt.forward(x)\n\t\tif i%2 == 0:\n\t\t\tt.left(180-36)\n\t\telse:\n\t\t\tt.right(90-36/2)";
+		
+		var defaultCode = "import turtle\n\nt = turtle.Turtle()";
 	</script> 
 </head>
 <body>
@@ -136,23 +160,16 @@
 		<div class="row">
 			<div class="span7">
 				<h3>Code</h2>
-		<textarea id="yourcode" cols="40" rows="10">
-import turtle
-
-t = turtle.Turtle()
-
-x = 50
-
-for i in range(5):
-	for c in ['red', 'green', 'orange', 'blue']:
-		t.color(c)
-		t.forward(x)
-		t.left(90)
-		x = x+5
-</textarea><br />
-			<p style="display:inline-block"><strong>Tip: Press Ctrl/Cmd+Enter to run</strong></p>
-			<button class="button run-button" onclick="runit()">Run</button> 
-			<button class="button clear-button" onclick="clearEditor()">Clear</button> 
+				<textarea id="yourcode" cols="40" rows="10"></textarea><br />
+				<p style="display:inline-block">Code Samples: 
+					<a href="#" onclick="setCode('circle')">Circle</a> |
+					<a href="#" onclick="setCode('star')">Star</a> |
+					<a href="#" onclick="setCode('spiral')">Spiral</a> 
+					<br/>
+					<strong>Tip: Press Ctrl/Cmd+Enter to run</strong>
+				</p>
+				<button class="button run-button" onclick="runit()">Run</button> 
+				<button class="button clear-button" onclick="clearEditor()">Clear</button> 
 	 		</div>
 			<div class="span5">	 		
 				<h3>Canvas</h3>
