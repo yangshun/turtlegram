@@ -1,4 +1,4 @@
-Python Turtle Art Platform
+Turtlepie - A Python Turtle Art Platform
 ==
 
 This is a prototype of a contest platform where users can create Python turtle art and share them with the world. People can also 'upvote' the python turtle art created.
