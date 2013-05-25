@@ -20,7 +20,7 @@
 	<link href="css/normalize.css" rel="stylesheet">
 	<script type="text/javascript" src="js/custom.modernizr.js"></script>
 	<!-- Typekit -->
-	<script type="text/javascript" src="//use.typekit.net/kji2glo.js"></script>
+	<script type="text/javascript" src="//use.typekit.net/bxj4lbj.js"></script>
 	<script type="text/javascript">try{Typekit.load();}catch(e){}</script>
 	<!-- Bootstrap -->
 	<link rel="icon" type="image/png" href="img/favicon.png">
@@ -32,7 +32,7 @@
 	<script src="js/codemirror/codemirror.js" type="text/javascript"></script>
 	<script src="js/codemirror/matchbrackets.js" type="text/javascript"></script>
 	<script src="js/codemirror/python.js" type="text/javascript"></script>
-	<link href="http://codemirror.net/theme/xq-dark.css" rel="stylesheet">
+	<link href="http://codemirror.net/theme/twilight.css" rel="stylesheet">
 	<!-- Skulpt -->
 	<script src="js/skulpt/skulpt.js" type="text/javascript"></script>
 	<script src="js/skulpt/builtin.js" type="text/javascript"></script>
@@ -77,14 +77,30 @@
 		        lineNumbers: true,
 		        textWrapping: false,
 		        indentUnit: 2,
-		        theme: 'xq-dark',
+		        theme: 'twilight',
 		        autofocus: true
 			});
 		})
 	</script> 
 </head>
 <body>
-	<div class="container">
+	<div class="navigation">
+		<div class="container">
+			<div class="row">
+				<a href="#" class="navigation-logo-link">
+					<img class="navigation-logo" src="img/turtle-pie-logo-small.png">
+					<span>TurtlePie</span>
+				</a>
+				<ul>
+					<li><a href="#">Gallery</a></li>
+					<li><a href="#">Create</a></li>
+					<li><a href="#">About</a></li>
+				</ul>
+			</div>
+		</div>
+	</div>
+
+	<div class="container" id="main-content">
 		<div class="row">
 			<div class="span12">
 				<h1>TurtlePie</h1>
@@ -108,8 +124,9 @@ for i in range(5):
 		t.left(89)
 		x = x+5
 </textarea><br />
-
-		<button type="button" onclick="runit()">Run</button> 
+<div></div>
+		<button class="btn run-btn" onclick="runit()">Run</button> 
+		<hr/>
 				<h3>Console</h3>
 				<pre id="output" ></pre>  
 	 		</div>
