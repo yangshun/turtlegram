@@ -83,6 +83,7 @@ button.submit-button {
   text-align: right;
   display: inline-block;
   float: right;
+  text-transform: uppercase;
 }
 
 .navigation ul li {
@@ -90,10 +91,10 @@ button.submit-button {
   color: #fff;
   font-weight: 600;
   line-height: 50px;
-  width: 80px;
   text-align: right;
-  font-size: 16px;
-  margin-left: 15px;
+  font-size: 14px;
+  margin-left: 20px;
+  letter-spacing: 1px;
 }
 
 .navigation ul li a {
