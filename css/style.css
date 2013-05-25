@@ -14,6 +14,7 @@ h1,h2,h3,h4,h5,h6 {
 a {
   font-family: "proxima-nova", sans-serif;
   color: #FF9900;
+  font-weight: 600;
 }
 
 a:hover {
