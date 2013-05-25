@@ -8,6 +8,7 @@ Third-party APIs/Services
 - **Front-end HTML/CSS**: Bootstrap 2.3.2
 - **Front-end MVC**: AngularJS
 - **In-browser python interpreter**: Skulpt
+- **In-browser code editor**: CodeMirror
 - **Back-end persistence**: Firebase/Parse
 - **Storing images**: Imgur/Filepicker.io
 - **Facebook SDK**: For commenting on individual python turtle art and sharing to timeline
