@@ -68,6 +68,14 @@
 		   eval(Sk.importMainWithBody("<stdin>",false,prog)); 
 		} 
 
+		// clears the editor
+		function clearEditor() {
+			myCodeMirror.setValue('import turtle\n\nt = turtle.Turtle()');
+			myCodeMirror.focus();
+		}
+		
+		var myCodeMirror;
+
 		$(document).ready(function() {
 
 			myCodeMirror = CodeMirror.fromTextArea(document.getElementById("yourcode"), {
@@ -84,7 +92,7 @@
 	</script> 
 </head>
 <body>
-	<div class="navigation">
+	<header class="navigation">
 		<div class="container">
 			<div class="row">
 				<a href="#" class="navigation-logo-link">
@@ -98,12 +106,12 @@
 				</ul>
 			</div>
 		</div>
-	</div>
+	</header>
 
 	<div class="container" id="main-content">
 		<div class="row">
 			<div class="span12">
-				<h1>TurtlePie</h1>
+				<h1>Turtle Art Creator</h1>
 				<hr/>
 			</div>
 		</div>
@@ -124,16 +132,21 @@ for i in range(5):
 		t.left(89)
 		x = x+5
 </textarea><br />
-<div></div>
-		<button class="btn run-btn" onclick="runit()">Run</button> 
-		<hr/>
-				<h3>Console</h3>
-				<pre id="output" ></pre>  
+			
+			<button class="button run-button" onclick="runit()">Run</button> 
+			<button class="button clear-button" onclick="clearEditor()">Clear</button> 
 	 		</div>
 			<div class="span5">	 		
 				<h3>Canvas</h3>
-				<canvas id="turtle-canvas" width="400" height="400"></mycanvas> 
+				<canvas id="turtle-canvas" width="380" height="380"></mycanvas> 
 			</div>
-	</div>
+		</div>
+		<hr/>
+		<div class="row">
+			<div class="span12">
+				<h3>Console</h3>
+				<pre id="output" ></pre>  
+			</div>
+		</div>
 </body>
 </html>
