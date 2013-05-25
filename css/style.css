@@ -22,6 +22,13 @@ a:hover {
   color: #663300;
 }
 
+a {
+  -webkit-transition: all 0.3s ease-in-out;
+  -moz-transition: all 0.3s ease-in-out;
+  -o-transition: all 0.3s ease-in-out;
+  transition: all 0.3s ease-in-out;
+}
+
 hr {
   border-top: 1px solid #ccc;
   border-bottom: 1px solid #eee;
@@ -36,14 +43,22 @@ button.button {
   font-weight: 600;
   float: right;
   margin-left: 20px;
+  border-bottom: 2px solid rgb(184, 92, 0);
 }
 
 button.button:hover {
   color: #fff;
+  margin-top: 2px;
+  margin-bottom: -2px;
+  border-bottom: none;
 }
 
 button.clear-button {
   background-color: #FFCC66;
+}
+
+button.submit-button {
+  float: left;
 }
 
 .navigation {
@@ -93,20 +108,28 @@ button.clear-button {
   font-size: 22px;
   font-weight: 600;
   color: #fff;
+  text-shadow: 0px 1px #000;
 }
 
 .navigation-logo-link:hover {
   color: #663300;
+  text-shadow: 0px -1px rgba(255, 255, 255, 0.5);
 }
 
 .navigation-logo-link span {
   display: inline-block;
-  margin-top: 15px;
+  margin-top: 7px;
+}
+
+.navigation-logo-link span.subtitle {
+  margin-top: 0;
+  font-size: 12px;
+  line-height: 12px;
 }
 
 .navigation-logo {
   position: relative;
-  top: 10px;
+  top: -5px;
   height: 50px;
   margin-left: 30px;
 }
@@ -127,7 +150,7 @@ button.clear-button {
 
 /* Coding page */
 
-#turtle-canvas {
+#turtle-canvas, #turtle-image {
   background-color: #fff;
   border-radius: 4px;
   -moz-box-shadow: 1px 1px 1px #999;
@@ -142,4 +165,8 @@ button.clear-button {
 
 .run-btn {
   text-align: right;
+}
+
+.modal-body {
+  background-color: rgb(245, 245, 245);
 }
