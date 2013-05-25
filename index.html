@@ -94,16 +94,20 @@ import turtle
 
 t = turtle.Turtle()
 
-for c in ['red', 'green', 'yellow', 'blue']:
-    t.color(c)
-    t.forward(75)
-    t.left(90)
+x = 50
+
+for i in range(10):
+	for c in ['red', 'green', 'yellow', 'blue']:
+		t.color(c)
+		t.forward(x)
+		t.left(89)
+		x = x+5
 </textarea><br /> 
 		<button type="button" onclick="runit()">Run</button> 
 	</form> 
 	<pre id="output" ></pre> 
 	<!-- If you want turtle graphics include a canvas -->
-	<canvas id="mycanvas" ></mycanvas> 
+	<canvas id="mycanvas" width="400" height="400"></mycanvas> 
 
 </body>
 </html>
