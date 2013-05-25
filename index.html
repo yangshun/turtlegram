@@ -41,7 +41,7 @@
 	<!-- Custom styling -->
 	<link href="css/style.css" rel="stylesheet">
 	
-	<title>TurtlePie</title>
+	<title>TurtleGram</title>
 	<script type="text/javascript"> 
 		// output functions are configurable.  This one just appends some text
 		// to a pre element.
@@ -124,8 +124,11 @@
 			myCodeMirror.setValue(spiralCode);
 		})
 
-		function setCode(type) {
-			switch (type) {
+		function setCode(self) {
+			
+			var canvas = document.getElementById('turtle-canvas');
+			canvas.getContext('2d').clearRect(-canvas.width, -canvas.height, 2*canvas.width, 2*canvas.height);
+			switch ($(self).attr('data-code')) {
 				case 'spiral':
 					myCodeMirror.setValue(spiralCode);
 					break;
@@ -136,6 +139,7 @@
 					myCodeMirror.setValue(circleCode);
 					break;
 			}
+			return false;
 		}
 
 		var spiralCode = "import turtle\n\nt = turtle.Turtle()\n\nx = 50\n\nfor i in range(5):\n\tfor c in ['red', 'green', 'orange', 'blue']:\n\t\tt.color(c)\n\t\tt.forward(x)\n\t\tt.left(91)\n\t\tx = x+5";
@@ -147,7 +151,7 @@
 		var defaultCode = "import turtle\n\nt = turtle.Turtle()";
 
 		function submit() {
-			var dataURL = document.getElementById('turtle-canvas').toDataURL();      
+			var dataURL = document.getElementById('turtle-canvas').toDataURL('image/jpeg');      
       		document.getElementById('turtle-image').src = dataURL;
 			// $('#turtle-image').attr('src', $('#turtle-canvas').toDataURL());
 		}
@@ -160,7 +164,7 @@
 			<div class="row">
 				<a href="#" class="navigation-logo-link">
 					<img class="navigation-logo" src="img/turtle-pie-logo-small.png">
-					<span>TurtlePie</span>
+					<span>TurtleGram</span>
 				</a>
 				<ul>
 					<li><a href="#">Gallery</a></li>
@@ -174,7 +178,7 @@
 	<div class="container" id="main-content">
 		<div class="row">
 			<div class="span12">
-				<h1>Turtle Art Creator</h1>
+				<h1>TurtleGram Creator</h1>
 				<p>Python Turtle is really awesome and cool! Check out the documentation at the official Python docs <a href="http://docs.python.org/2/library/turtle.html" target="_blank">here</a>.</p>
 				<hr/>
 			</div>
@@ -188,12 +192,12 @@
 				<h3>Code</h2>
 				<textarea id="yourcode" cols="40" rows="10"></textarea><br />
 				<p style="display:inline-block; width: 100%">
-					Draw without animation: <input type="checkbox" id="turtle-animation"/> 
+					Draw without animation: <input type="checkbox" id="turtle-animation" style="margin-top:0"/> 
 					<strong style="float:right">Tip: Press Ctrl/Cmd+Enter to run</strong><br/><br/>
 					Code Samples: 
-					<a href="#" onclick="setCode('circle')">Circle</a> |
-					<a href="#" onclick="setCode('star')">Star</a> |
-					<a href="#" onclick="setCode('spiral')">Spiral</a> 
+					<a href="#!" onclick="setCode(this)" data-code="circle">Circle</a> |
+					<a href="#!" onclick="setCode(this)" data-code="star">Star</a> |
+					<a href="#!" onclick="setCode(this)" data-code="spiral">Spiral</a> 
 					<br/>
 				</p>
 	 		</div>
@@ -203,7 +207,7 @@
 			<div class="span12">
 				<button class="button run-button" onclick="submit()">Submit</button> 
 				<button class="button run-button" onclick="runit()">Run</button> 
-				<button class="button clear-button" onclick="clearEditor()">Clear</button>
+				<button class="button clear-button" onclick="clearEditor()">Clear Editor</button>
 			</div>
 		</div>
 		<hr/>
