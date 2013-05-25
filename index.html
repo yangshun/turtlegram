@@ -27,7 +27,7 @@
 	<script type="text/javascript">try{Typekit.load();}catch(e){}</script>
 	<!-- Bootstrap -->
 	<link rel="icon" type="image/png" href="img/favicon.png">
-	<!-- <link href="css/bootstrap.min.css" rel="stylesheet"> -->
+	<link href="css/bootstrap.min.css" rel="stylesheet">
 	<script type="text/javascript" src="js/bootstrap.min.js"></script>
 	<!-- Codemirror -->
 
@@ -35,7 +35,7 @@
 	<script src="js/codemirror/codemirror.js" type="text/javascript"></script>
 	<script src="js/codemirror/matchbrackets.js" type="text/javascript"></script>
 	<script src="js/codemirror/python.js" type="text/javascript"></script>
-	<link href="http://codemirror.net/theme/twilight.css" rel="stylesheet">
+	<link href="http://codemirror.net/theme/xq-dark.css" rel="stylesheet">
 	<!-- Skulpt -->
 	<script src="js/skulpt/skulpt.js" type="text/javascript"></script>
 	<script src="js/skulpt/builtin.js" type="text/javascript"></script>
@@ -65,7 +65,7 @@
 		   var prog = myCodeMirror.getValue(); 
 		   var mypre = document.getElementById("output"); 
 		   mypre.innerHTML = ''; 
-		   Sk.canvas = "mycanvas";
+		   Sk.canvas = "turtle-canvas";
 		   Sk.pre = "output";
 		   Sk.configure({output:outf, read:builtinRead}); 
 		   eval(Sk.importMainWithBody("<stdin>",false,prog)); 
@@ -80,15 +80,23 @@
 		        lineNumbers: true,
 		        textWrapping: false,
 		        indentUnit: 2,
-		        theme: 'twilight',
+		        theme: 'xq-dark',
 		        autofocus: true
 			});
 		})
 	</script> 
 </head>
 <body>
-	<h3>Try This</h3> 
-	<form> 
+	<div class="container">
+		<div class="row">
+			<div class="span12">
+				<h1>TurtlePie</h1>
+				<hr/>
+			</div>
+		</div>
+		<div class="row">
+			<div class="span7">
+				<h3>Code</h2>
 		<textarea id="yourcode" cols="40" rows="10">
 import turtle
 
@@ -96,18 +104,22 @@ t = turtle.Turtle()
 
 x = 50
 
-for i in range(10):
+for i in range(5):
 	for c in ['red', 'green', 'yellow', 'blue']:
 		t.color(c)
 		t.forward(x)
 		t.left(89)
 		x = x+5
-</textarea><br /> 
-		<button type="button" onclick="runit()">Run</button> 
-	</form> 
-	<pre id="output" ></pre> 
-	<!-- If you want turtle graphics include a canvas -->
-	<canvas id="mycanvas" width="400" height="400"></mycanvas> 
+</textarea><br />
 
+		<button type="button" onclick="runit()">Run</button> 
+				<h3>Console</h3>
+				<pre id="output" ></pre>  
+	 		</div>
+			<div class="span5">	 		
+				<h3>Canvas</h3>
+				<canvas id="turtle-canvas" width="400" height="400"></mycanvas> 
+			</div>
+	</div>
 </body>
 </html>
