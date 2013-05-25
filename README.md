@@ -1,5 +1,6 @@
-Turtlepie - A Python Turtle Art Platform
+TurtleGram
 ==
+**A platform to share and create Python Turtle Art**
 
 This is a prototype of a contest platform where users can create Python turtle art and share them with the world. People can also 'upvote' the python turtle art created.
 
@@ -11,6 +12,7 @@ Third-party APIs/Services
 - **Back-end persistence**: Firebase/Parse
 - **Storing images**: Imgur/Filepicker.io
 - **Facebook SDK**: For commenting on individual python turtle art and sharing to timeline
+- **Aviary Photo-editing SDK**: Filters anyone?
 
 Model
 --
