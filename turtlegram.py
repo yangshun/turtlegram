@@ -19,5 +19,9 @@ def about():
 def create():
     return render_template('create.html')
 
+@app.route('/view/<post_id>')
+def view(post_id):
+    return render_template('view.html', post_id=post_id)
+
 if __name__ == '__main__':
     app.run()
