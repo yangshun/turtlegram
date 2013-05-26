@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8;">
+	<meta http-equiv="Cache-Control" content="public;">
+	<meta name="robots" content="index,follow">
+	<meta name="viewport" content="width=device-width, maximum-scale=1.0" />
+	<meta name="author" content="Yang Shun Tay">
+	<meta name="copyright" content="Copyright Yang Shun Tay. All Rights Reserved.">
+	<meta name="description" content="This is a prototype of a contest platform where users can create Python turtle art and share them with the world. People can also 'upvote' the python turtle art created.">
+	<meta name="keywords" content="python, turtle, python turtle, art, cs1010s, skulpt">
+	<!-- Facebook Open Graph -->
+	<meta property="og:title" content="Turtlepie">
+	<meta property="og:description" content="Prototype of a contest platform where users can create Python turtle art and share them with the world. People can also 'upvote' the python turtle art created.">
+	<meta property="og:site_name" content="">
+	<meta property="og:type" content="website">
+	<meta property="og:image" content="">    
+	<!-- General essentials -->
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js" type="text/javascript"></script>
+	<link href="css/normalize.css" rel="stylesheet">
+	<script type="text/javascript" src="js/custom.modernizr.js"></script>
+	<!-- Typekit -->
+	<script type="text/javascript" src="//use.typekit.net/bxj4lbj.js"></script>
+	<script type="text/javascript">try{Typekit.load();}catch(e){}</script>
+	<!-- Bootstrap -->
+	<link rel="icon" type="image/png" href="img/favicon.png">
+	<link href="css/bootstrap.min.css" rel="stylesheet">
+	<script type="text/javascript" src="js/bootstrap.min.js"></script>
+	<!-- Codemirror -->
+
+	<link href="css/codemirror/codemirror.css" rel="stylesheet">
+	<script src="js/codemirror/codemirror.js" type="text/javascript"></script>
+	<script src="js/codemirror/matchbrackets.js" type="text/javascript"></script>
+	<script src="js/codemirror/python.js" type="text/javascript"></script>
+	<link href="http://codemirror.net/theme/twilight.css" rel="stylesheet">
+	<!-- Skulpt -->
+	<script src="js/skulpt/skulpt.js" type="text/javascript"></script>
+	<script src="js/skulpt/builtin.js" type="text/javascript"></script>
+	<!-- Keyboard Shortcuts -->
+	<script src="js/shortcut.js" type="text/javascript"></script>
+	<!-- Firebase -->
+	<script src='https://cdn.firebase.com/v0/firebase.js'></script>
+
+	<!-- Custom styling -->
+	<link href="css/style.css" rel="stylesheet">
+	
+	<title>TurtleGram</title>
+	<script type="text/javascript"> 
+		// output functions are configurable.  This one just appends some text
+		// to a pre element.
+		function outf(text) { 
+		    var mypre = document.getElementById("output"); 
+		    mypre.innerHTML = mypre.innerHTML + text; 
+		} 
+		function builtinRead(x) {
+		    if (Sk.builtinFiles === undefined || Sk.builtinFiles["files"][x] === undefined)
+		            throw "File not found: '" + x + "'";
+		    return Sk.builtinFiles["files"][x];
+		}
+		 
+		// Here's everything you need to run a python program in skulpt
+		// grab the code from your textarea
+		// get a reference to your pre element for output
+		// configure the output function
+		// call Sk.importMainWithBody()
+		function runit() { 
+			var prog = myCodeMirror.getValue();
+			if ($('#turtle-animation').is(":checked")) {
+				
+				var lines = prog.split('\n');
+				// console.log(lines);
+				for (var i = 0; i < lines.length; i++) {
+					if (lines[i].indexOf('turtle.Turtle()') != -1) {
+						var turtle_var = $.trim(lines[i].split('=')[0]);
+						lines.splice(i+1, 0, turtle_var + '.speed(0)');
+					}
+				}
+				prog = lines.join('\n');
+			}
+
+			var mypre = document.getElementById("output"); 
+			mypre.innerHTML = ''; 
+			Sk.canvas = "turtle-canvas";
+			Sk.pre = "output";
+			Sk.configure({output:outf, read:builtinRead}); 
+			eval(Sk.importMainWithBody("<stdin>",false,prog)); 
+		} 
+
+		// clears the editor
+		function clearEditor() {
+			myCodeMirror.setValue(defaultCode);
+			myCodeMirror.focus();
+		}
+
+		function setCode(self) {
+			
+			var canvas = document.getElementById('turtle-canvas');
+			canvas.getContext('2d').clearRect(-canvas.width, -canvas.height, 2*canvas.width, 2*canvas.height);
+			switch ($(self).attr('data-code')) {
+				case 'spiral':
+					myCodeMirror.setValue(spiralCode);
+					break;
+				case 'star':
+					myCodeMirror.setValue(starCode);
+					break;
+				case 'circle':
+					myCodeMirror.setValue(circleCode);
+					break;
+			}
+			return false;
+		}
+
+		var spiralCode = "import turtle\n\nt = turtle.Turtle()\n\nx = 50\n\nfor i in range(5):\n\tfor c in ['red', 'green', 'orange', 'blue']:\n\t\tt.color(c)\n\t\tt.forward(x)\n\t\tt.left(91)\n\t\tx = x+5";
+
+		var circleCode = "import turtle\n\nt = turtle.Turtle()\n\nx = 2\n\nfor i in range(180):\n\tt.forward(x)\n\tt.left(2)\n";
+
+		var starCode = "import turtle\n\nt = turtle.Turtle()\n\nn = 5\nx = 50\n\nfor i in range(n*2):\n\t\tt.forward(x)\n\t\tif i%2 == 0:\n\t\t\tt.left(180-36)\n\t\telse:\n\t\t\tt.right(90-36/2)";
+		
+		var defaultCode = "import turtle\n\nt = turtle.Turtle()";
+
+		function showSubmissionModal() {
+			var dataURL = document.getElementById('turtle-canvas').toDataURL();      
+      		document.getElementById('turtle-image').src = dataURL;
+      		
+			$('#myModal').on('shown', function() {
+				$('#title').focus();
+			});
+      		$('#myModal').modal();      		
+		}
+
+		function submitToBackend() {
+			var date = new Date();
+			var data = {
+				title: $('#title').val(),
+				creator: $('#creator').val(),
+				description: $('#description').val(),
+				code: myCodeMirror.getValue(),
+				image_url: $('#turtle-image').attr('src'),
+				date: date.getTime()
+			}
+
+			console.log(data);
+			// TODO: post this to firebase
+			myDataRef.push(data, function(error) {
+				if (error) {
+					alert('Error in submission!');
+				} else {
+					// keep the modal after saving to firebase is done:
+					$('#myModal').modal('hide');
+					window.location = 'index.html';
+				}
+			})
+		}
+
+		var myCodeMirror;
+		var myDataRef;
+
+		$(document).ready(function() {
+
+			myDataRef = new Firebase('https://turtlegram.firebaseio.com/posts');
+
+			myCodeMirror = CodeMirror.fromTextArea(document.getElementById("yourcode"), {
+				mode: {name: "python",
+               		version: 2,
+               		singleLineStringErrors: false},
+		        lineNumbers: true,
+		        textWrapping: false,
+		        indentUnit: 2,
+		        indentWithTabs: true,
+		        tabSize: 2,
+		        theme: 'twilight',
+		        autofocus: true
+			});
+
+			shortcut.add("Meta+Enter",function() {
+				runit();
+			},{'type':'keydown',
+				'propagate':false,
+				'target':document
+			});
+			shortcut.add("Ctrl+Enter",function() {
+				runit();
+			},{'type':'keydown',
+				'propagate':false,
+				'target':document
+			});
+
+			myCodeMirror.setValue(spiralCode);
+
+			myDataRef.on('value', function(snapshot) {
+				console.log(snapshot.val());
+			});
+		})
+
+
+	</script> 
+</head>
+<body>
+	<header class="navigation">
+		<div class="container">
+			<div class="row">
+				<a href="index.html" class="navigation-logo-link">
+					<img class="navigation-logo" src="img/turtlegram-logo-small.png">
+					<span>TurtleGram<br/><span class="subtitle">Create your own turtle art and share it with the world!</span></span>
+				</a>
+				<ul>
+					<li><a href="index.html">Gallery</a></li>
+					<li><a href="#">Create</a></li>
+					<li><a href="#">About</a></li>
+				</ul>
+			</div>
+		</div>
+	</header>
+
+	<div class="container" id="main-content">
+		<div class="row">
+			<div class="span12">
+				<h1>TurtleGram Creator</h1>
+				<p>Turtle graphics is a popular way for introducing programming to kids. It was part of the original Logo programming language developed by Wally Feurzig and Seymour Papert in 1966.Check out the documentation at the official Python docs <a href="http://docs.python.org/2/library/turtle.html" target="_blank">here</a>.</p>
+				<p>Create your own <strong>awesome</strong> TurtleGram here and share them with the world!</p>
+				<hr/>
+			</div>
+		</div>
+		<div class="row">
+			<div class="span5">	 		
+				<h3>Canvas</h3>
+				<canvas id="turtle-canvas" width="380" height="380"></mycanvas> 
+			</div>
+			<div class="span7">
+				<h3>Code</h2>
+				<textarea id="yourcode" cols="40" rows="15"></textarea><br />
+				<p style="display:inline-block; width: 100%">
+					<label class="checkbox">
+						<input type="checkbox" id="turtle-animation"/> 
+						Draw without animation
+					</label>
+						Code Samples: 
+					<a href="#!" onclick="setCode(this)" data-code="circle">Circle</a> |
+					<a href="#!" onclick="setCode(this)" data-code="star">Star</a> |
+					<a href="#!" onclick="setCode(this)" data-code="spiral">Spiral</a> 
+					<strong style="float:right">Tip: Press Ctrl/Cmd+Enter to run</strong><br/><br/>
+				
+					<br/>
+				</p>
+	 		</div>
+		</div>
+		<div class="row">
+			<div class="span12">
+				<button class="button submit-button" onclick="showSubmissionModal()">Submit</button> 
+				<button class="button run-button" onclick="runit()">Run Code</button> 
+				<button class="button clear-button" onclick="clearEditor()">Clear Editor</button>
+			</div>
+		</div>
+		<hr/>
+		<div class="row">
+			<div class="span12">
+				<h3>Console</h3>
+				<pre id="output" ></pre>  
+			</div>
+		</div>
+		<div id="myModal" class="modal hide fade">
+			<div class="modal-header">
+		    	<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+		    	<h3>TurtleGram Submission</h3>
+		  	</div>
+		  	<div class="modal-body">
+				<center><img id="turtle-image" width="100" height="100" /></center>
+				<hr/>
+				<form class="form-horizontal">
+					<div class="control-group">
+					    <label class="control-label">Title</label>
+					    <div class="controls">
+					   		<input id="title" type="text" class="input-xlarge">
+					    </div>
+					</div>
+					<div class="control-group">
+					    <label class="control-label">Creator</label>
+					    <div class="controls">
+					   		<input id="creator" type="text" class="input-xlarge">
+					    </div>
+					</div>
+					<div class="control-group">
+					    <label class="control-label">Description</label>
+					    <div class="controls">
+					    	<textarea id="description" rows="3" class="input-xlarge"></textarea>
+					    </div>
+					</div>
+				</form>
+		  	</div>
+		  	<div class="modal-footer">
+		  		<button class="button submit-button" onclick="submitToBackend()">Submit</button>
+		    	<button class="button clear-button" data-dismiss="modal" aria-hidden="true">Cancel</button>
+		  	</div>
+		</div>
+</body>
+</html>
