@@ -59,8 +59,10 @@
 				console.log(data);
 				for (var key in data) {
 					var $post = $('<div></div>').addClass('turtlegram-post');
-					var $name = $('<h4></h4>').text(data[key].title);
+					var $title = $('<h4></h4>').addClass('turtlegram-post-title').text(data[key].title);
+					var $name = $('<p></p>').html('<strong>' + data[key].creator + '</strong>');
 					var $img = $('<img/>').addClass('turtlegram-post-img').attr('src', data[key].image_url);
+					$post.append($title);
 					$post.append($name);
 					$post.append($img);
 					$('#turtlegram-gallery').append($post);
