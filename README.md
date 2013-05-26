@@ -70,4 +70,4 @@ For the prototype, only one object is needed: Python Turtle Art
 **Soedarsono Lim**
 
 + [http://github.com/soedar](http://github.com/soedar)
-+ [http://twitter.com/soedar](http://twitter.com/soedar)
++ [http://twitter.com/soedarsono](http://twitter.com/soedarsono)
