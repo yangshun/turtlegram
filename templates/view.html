@@ -42,39 +42,6 @@
             eval(Sk.importMainWithBody("<stdin>",false,prog)); 
         } 
 
-        // clears the editor
-        function clearEditor() {
-            myCodeMirror.setValue(defaultCode);
-            myCodeMirror.focus();
-        }
-
-        // to change the code in the editor window.
-        function setCode(self) {
-            var canvas = document.getElementById('turtle-canvas');
-            canvas.getContext('2d').clearRect(-canvas.width, -canvas.height, 2*canvas.width, 2*canvas.height);
-            switch ($(self).attr('data-code')) {
-                case 'spiral':
-                    myCodeMirror.setValue(spiralCode);
-                    break;
-                case 'star':
-                    myCodeMirror.setValue(starCode);
-                    break;
-                case 'circle':
-                    myCodeMirror.setValue(circleCode);
-                    break;
-            }
-            return false;
-        }
-
-        // hard-coded code samples
-        var spiralCode = "import turtle\n\nt = turtle.Turtle()\n\nx = 50\n\nfor i in range(5):\n\tfor c in ['red', 'green', 'orange', 'blue']:\n\t\tt.color(c)\n\t\tt.forward(x)\n\t\tt.left(91)\n\t\tx = x+5";
-
-        var circleCode = "import turtle\n\nt = turtle.Turtle()\n\nx = 2\n\nfor i in range(180):\n\tt.forward(x)\n\tt.left(2)\n";
-
-        var starCode = "import turtle\n\nt = turtle.Turtle()\n\nn = 5\nx = 50\n\nfor i in range(n*2):\n\t\tt.forward(x)\n\t\tif i%2 == 0:\n\t\t\tt.left(180-36)\n\t\telse:\n\t\t\tt.right(90-36/2)";
-        
-        var defaultCode = "import turtle\n\nt = turtle.Turtle()";
-
         // when submit button is pressed
         function showSubmissionModal() {
             var dataURL = document.getElementById('turtle-canvas').toDataURL();      
@@ -86,36 +53,13 @@
             $('#myModal').modal();              
         }
 
-        // when submit button in the modal is pressed
-        function submitToBackend() {
-            var date = new Date();
-            var data = {
-                title: $('#title').val(),
-                creator: $('#creator').val(),
-                description: $('#description').val(),
-                code: myCodeMirror.getValue(),
-                image_url: $('#turtle-image').attr('src'),
-                date: date.getTime()
-            }
-
-            console.log(data);
-            myDataRef.push(data, function(error) {
-                if (error) {
-                    alert('Error in submission!');
-                } else {
-                    // keep the modal after saving to firebase is done:
-                    $('#myModal').modal('hide');
-                    window.location = '{{url_for("index")}}';
-                }
-            })
-        }
-
         var myCodeMirror;
         var myDataRef;
 
         $(document).ready(function() {
 
-            myDataRef = new Firebase('https://turtlegram.firebaseio.com/posts');
+            myDataRef = new Firebase('https://turtlegram.firebaseio.com/posts/' + "{{post_id}}/code");
+
 
             myCodeMirror = CodeMirror.fromTextArea(document.getElementById("yourcode"), {
                 mode: {name: "python",
@@ -127,7 +71,8 @@
                 indentWithTabs: true,
                 tabSize: 2,
                 theme: 'twilight',
-                autofocus: true
+                autofocus: true,
+                readOnly: true
             });
 
             // add shortcuts for editor
@@ -144,7 +89,10 @@
                 'target':document
             });
 
-            myCodeMirror.setValue(spiralCode);
+            myDataRef.once('value', function(data) {
+                myCodeMirror.setValue(data.val());
+                runit();
+            });
         })
     </script> 
 
@@ -165,28 +113,27 @@
                 <canvas id="turtle-canvas" width="380" height="380"></mycanvas> 
             </div>
             <div class="span7">
-                <h3>Code</h2>
+                <h3>Info</h3>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="span12">
+                <h3>Code</h3>
                 <textarea id="yourcode" cols="40" rows="15"></textarea><br />
                 <p style="display:inline-block; width: 100%">
                     <label class="checkbox">
                         <input type="checkbox" id="turtle-animation"/> 
                         Draw without animation
                     </label>
-                        Code Samples: 
-                    <a href="#!" onclick="setCode(this)" data-code="circle">Circle</a> |
-                    <a href="#!" onclick="setCode(this)" data-code="star">Star</a> |
-                    <a href="#!" onclick="setCode(this)" data-code="spiral">Spiral</a> 
-                    <strong style="float:right">Tip: Press Ctrl/Cmd+Enter to run</strong><br/><br/>
-                
                     <br/>
                 </p>
             </div>
         </div>
+
         <div class="row">
             <div class="span12">
-                <button class="button submit-button" onclick="showSubmissionModal()">Submit</button> 
                 <button class="button run-button" onclick="runit()">Run Code</button> 
-                <button class="button clear-button" onclick="clearEditor()">Clear Editor</button>
             </div>
         </div>
         <hr/>
