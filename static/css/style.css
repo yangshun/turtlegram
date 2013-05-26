@@ -273,6 +273,10 @@ hr {
   box-shadow: 1px 1px 1px #999;
 }
 
+.turtlegram-post:hover {
+  background-color: #e2e2e2;
+}
+
 .turtlegram-post-title {
   color: #FF9900;
   text-shadow: none;
