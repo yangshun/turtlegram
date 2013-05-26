@@ -29,3 +29,14 @@ For the prototype, only one type of object is needed: Python Turtle Art
   - **creator**: string
   - **date_created**: string/int(?)
 
+Flask
+--
+To install Flask:  
+1. Install virtualenv and pip
+2. Checkout and cd to the directory that you checkout
+3. >virtualenv venv
+4. >. venv/bin/activate
+5. >pip install Flask
+ 
+To run the application:
+1. python turtlegram.py
