@@ -1,5 +1,11 @@
     {% extends 'base.html' %}
 
+    {% block fb_meta_tags %}
+    <meta property="og:title" content="View">
+    <meta property="og:description" content="Prototype of a contest platform where users can create Python turtle art and share them with the world. People can also 'upvote' the python turtle art created.">
+    <meta property="og:image" content="">
+    {% endblock %}
+
     {% block scripts %}
     <script type="text/javascript"> 
         // output functions are configurable.  This one just appends some text
