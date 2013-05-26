@@ -7,8 +7,8 @@ This is a prototype of a contest platform where users can create Python turtle a
 ## Installation
 
 To install Flask:  
-Install `virtualenv` and `pip`
-Checkout and cd to the directory that you checkout
+Install `virtualenv` and `pip`.
+Checkout and `cd` to the directory that you checkout
 
     $ virtualenv venv
     $ . venv/bin/activate
