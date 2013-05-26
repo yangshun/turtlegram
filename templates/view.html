@@ -19,9 +19,9 @@
         // get a reference to your pre element for output
         // configure the output function
         // call Sk.importMainWithBody()
-        function runit() { 
+        function runit(run_without_animation) { 
             var prog = myCodeMirror.getValue();
-            if ($('#turtle-animation').is(":checked")) {
+            if ($('#turtle-animation').is(":checked") || run_without_animation) {
                 
                 var lines = prog.split('\n');
                 // console.log(lines);
@@ -42,24 +42,9 @@
             eval(Sk.importMainWithBody("<stdin>",false,prog)); 
         } 
 
-        // when submit button is pressed
-        function showSubmissionModal() {
-            var dataURL = document.getElementById('turtle-canvas').toDataURL();      
-            document.getElementById('turtle-image').src = dataURL;
-            
-            $('#myModal').on('shown', function() {
-                $('#title').focus();
-            });
-            $('#myModal').modal();              
-        }
-
         var myCodeMirror;
-        var myDataRef;
 
         $(document).ready(function() {
-
-            myDataRef = new Firebase('https://turtlegram.firebaseio.com/posts/' + "{{post_id}}/code");
-
 
             myCodeMirror = CodeMirror.fromTextArea(document.getElementById("yourcode"), {
                 mode: {name: "python",
@@ -88,11 +73,8 @@
                 'propagate':false,
                 'target':document
             });
-
-            myDataRef.once('value', function(data) {
-                myCodeMirror.setValue(data.val());
-                runit();
-            });
+            // load page with canvas already drawn
+            runit(true);
         })
     </script> 
 
@@ -101,9 +83,9 @@
     {% block content %}
         <div class="row">
             <div class="span12">
-                <h1>TurtleGram Creator</h1>
-                <p>Turtle graphics is a popular way for introducing programming to kids. It was part of the original Logo programming language developed by Wally Feurzig and Seymour Papert in 1966.Check out the documentation at the official Python docs <a href="http://docs.python.org/2/library/turtle.html" target="_blank">here</a>.</p>
-                <p>Create your own <strong>awesome</strong> TurtleGram here and share them with the world!</p>
+                <h1>{{post_data.title}}</h1>
+                <p><strong>Creator: </strong>{{post_data.creator}}</p>
+                <p><strong>Description: </strong>{{post_data.description}}</p>
                 <hr/>
             </div>
         </div>
@@ -113,68 +95,22 @@
                 <canvas id="turtle-canvas" width="380" height="380"></mycanvas> 
             </div>
             <div class="span7">
-                <h3>Info</h3>
-            </div>
-        </div>
-
-        <div class="row">
-            <div class="span12">
                 <h3>Code</h3>
-                <textarea id="yourcode" cols="40" rows="15"></textarea><br />
+                <textarea id="yourcode" cols="40" rows="15">{{post_data.code}}</textarea><br />
                 <p style="display:inline-block; width: 100%">
                     <label class="checkbox">
                         <input type="checkbox" id="turtle-animation"/> 
                         Draw without animation
                     </label>
                     <br/>
+                    <button class="button run-button" onclick="runit()">Run Code</button> 
                 </p>
             </div>
         </div>
-
-        <div class="row">
-            <div class="span12">
-                <button class="button run-button" onclick="runit()">Run Code</button> 
-            </div>
-        </div>
-        <hr/>
-        <div class="row">
+        <div class="row" style="display:none">
             <div class="span12">
                 <h3>Console</h3>
                 <pre id="output" ></pre>  
-            </div>
-        </div>
-        <div id="myModal" class="modal hide fade">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h3>TurtleGram Submission</h3>
-            </div>
-            <div class="modal-body">
-                <center><img id="turtle-image" width="100" height="100" /></center>
-                <hr/>
-                <form class="form-horizontal">
-                    <div class="control-group">
-                        <label class="control-label">Title</label>
-                        <div class="controls">
-                            <input id="title" type="text" class="input-xlarge">
-                        </div>
-                    </div>
-                    <div class="control-group">
-                        <label class="control-label">Creator</label>
-                        <div class="controls">
-                            <input id="creator" type="text" class="input-xlarge">
-                        </div>
-                    </div>
-                    <div class="control-group">
-                        <label class="control-label">Description</label>
-                        <div class="controls">
-                            <textarea id="description" rows="3" class="input-xlarge"></textarea>
-                        </div>
-                    </div>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button class="button submit-button" onclick="submitToBackend()">Submit</button>
-                <button class="button clear-button" data-dismiss="modal" aria-hidden="true">Cancel</button>
             </div>
         </div>
 

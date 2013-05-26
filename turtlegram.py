@@ -1,4 +1,6 @@
 from flask import Flask, render_template
+import urllib2
+import json
 
 app = Flask(__name__)
 app.config['PROPAGATE_EXCEPTIONS'] = True
@@ -22,7 +24,10 @@ def create():
 @app.route('/view/')
 @app.route('/view/<post_id>')
 def view(post_id):
-    return render_template('view.html', post_id=post_id)
+	url = 'https://turtlegram.firebaseio.com/posts/' + post_id + '.json'
+	data = json.load(urllib2.urlopen(url))
+	print data
+	return render_template('view.html', post_id=post_id, post_data=data)
 
 if __name__ == '__main__':
     app.run()
