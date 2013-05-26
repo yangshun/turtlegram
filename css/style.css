@@ -73,6 +73,22 @@ button.submit-button {
 
 }
 
+.form-horizontal .control-label {
+  width: 100px;
+  font-weight: 700;
+}
+
+.form-horizontal .controls {
+  margin-left: 120px;
+}
+
+.controls input,
+.controls textarea {
+  -moz-box-shadow: 1px 1px 1px #999;
+  -webkit-box-shadow: 1px 1px 1px #999;
+  box-shadow: 1px 1px 1px #999;
+}
+
 .navigation {
   height: 50px;
   background-color: #FF9900;
@@ -173,10 +189,10 @@ button.submit-button {
 }
 
 #output {
-  height: 300px;
+  height: 100px;
   overflow: scroll;
 }
 
 .modal-body {
-  background-color: rgb(255, 237, 202);
+  background-color: #ccc;
 }

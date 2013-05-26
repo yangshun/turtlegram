@@ -117,12 +117,29 @@
 		
 		var defaultCode = "import turtle\n\nt = turtle.Turtle()";
 
-		function submit() {
+		function showSubmissionModal() {
 			var dataURL = document.getElementById('turtle-canvas').toDataURL();      
       		document.getElementById('turtle-image').src = dataURL;
       		$('#myModal').modal();
 		}
 
+		function submitToBackend() {
+			var date = new Date();
+			var json = {
+				title: $('#title').val(),
+				creator: $('#creator').val(),
+				description: $('#description').val(),
+				code: myCodeMirror.getValue(),
+				image_url: $('#turtle-image').attr('src'),
+				date: date.getTime()
+			}
+
+			console.log(json);
+			// TODO: post this to firebase
+
+			// keep the modal after saving to firebase is done:
+			$('#myModal').modal('hide');
+		}
 
 		var myCodeMirror;
 
@@ -181,7 +198,8 @@
 		<div class="row">
 			<div class="span12">
 				<h1>TurtleGram Creator</h1>
-				<p>Python Turtle is really awesome and cool! Check out the documentation at the official Python docs <a href="http://docs.python.org/2/library/turtle.html" target="_blank">here</a>.</p>
+				<p>Turtle graphics is a popular way for introducing programming to kids. It was part of the original Logo programming language developed by Wally Feurzig and Seymour Papert in 1966.Check out the documentation at the official Python docs <a href="http://docs.python.org/2/library/turtle.html" target="_blank">here</a>.</p>
+				<p>Create your own <strong>awesome</strong> TurtleGram here and share them with the world!</p>
 				<hr/>
 			</div>
 		</div>
@@ -192,22 +210,25 @@
 			</div>
 			<div class="span7">
 				<h3>Code</h2>
-				<textarea id="yourcode" cols="40" rows="10"></textarea><br />
+				<textarea id="yourcode" cols="40" rows="15"></textarea><br />
 				<p style="display:inline-block; width: 100%">
-					Draw without animation: <input type="checkbox" id="turtle-animation" style="margin-top:0"/> 
-					<strong style="float:right">Tip: Press Ctrl/Cmd+Enter to run</strong><br/><br/>
-					Code Samples: 
+					<label class="checkbox">
+						<input type="checkbox" id="turtle-animation"/> 
+						Draw without animation
+					</label>
+						Code Samples: 
 					<a href="#!" onclick="setCode(this)" data-code="circle">Circle</a> |
 					<a href="#!" onclick="setCode(this)" data-code="star">Star</a> |
 					<a href="#!" onclick="setCode(this)" data-code="spiral">Spiral</a> 
+					<strong style="float:right">Tip: Press Ctrl/Cmd+Enter to run</strong><br/><br/>
+				
 					<br/>
 				</p>
 	 		</div>
 		</div>
-		<br/>
 		<div class="row">
 			<div class="span12">
-				<button class="button submit-button" onclick="submit()">Submit</button> 
+				<button class="button submit-button" onclick="showSubmissionModal()">Submit</button> 
 				<button class="button run-button" onclick="runit()">Run Code</button> 
 				<button class="button clear-button" onclick="clearEditor()">Clear Editor</button>
 			</div>
@@ -222,14 +243,35 @@
 		<div id="myModal" class="modal hide fade">
 			<div class="modal-header">
 		    	<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-		    	<h3>Submission</h3>
+		    	<h3>TurtleGram Submission</h3>
 		  	</div>
 		  	<div class="modal-body">
-				<center><img id="turtle-image" width="380" height="380" /></center>
+				<center><img id="turtle-image" width="100" height="100" /></center>
+				<hr/>
+				<form class="form-horizontal">
+					<div class="control-group">
+					    <label class="control-label">Title</label>
+					    <div class="controls">
+					   		<input id="title" type="text" class="input-xlarge">
+					    </div>
+					</div>
+					<div class="control-group">
+					    <label class="control-label">Creator</label>
+					    <div class="controls">
+					   		<input id="creator" type="text" class="input-xlarge">
+					    </div>
+					</div>
+					<div class="control-group">
+					    <label class="control-label">Description</label>
+					    <div class="controls">
+					    	<textarea id="description" rows="3" class="input-xlarge"></textarea>
+					    </div>
+					</div>
+				</form>
 		  	</div>
 		  	<div class="modal-footer">
-		  		<button class="button run-button">Submit</button>
-		    	<button class="button clear-button" data-dismiss="modal" >Close</button>
+		  		<button class="button submit-button" onclick="submitToBackend()">Submit</button>
+		    	<button class="button clear-button" data-dismiss="modal">Cancel</button>
 		  	</div>
 		</div>
 </body>
