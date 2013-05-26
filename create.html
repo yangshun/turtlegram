@@ -92,8 +92,8 @@
 			myCodeMirror.focus();
 		}
 
+		// to change the code in the editor window.
 		function setCode(self) {
-			
 			var canvas = document.getElementById('turtle-canvas');
 			canvas.getContext('2d').clearRect(-canvas.width, -canvas.height, 2*canvas.width, 2*canvas.height);
 			switch ($(self).attr('data-code')) {
@@ -110,6 +110,7 @@
 			return false;
 		}
 
+		// hard-coded code samples
 		var spiralCode = "import turtle\n\nt = turtle.Turtle()\n\nx = 50\n\nfor i in range(5):\n\tfor c in ['red', 'green', 'orange', 'blue']:\n\t\tt.color(c)\n\t\tt.forward(x)\n\t\tt.left(91)\n\t\tx = x+5";
 
 		var circleCode = "import turtle\n\nt = turtle.Turtle()\n\nx = 2\n\nfor i in range(180):\n\tt.forward(x)\n\tt.left(2)\n";
@@ -118,6 +119,7 @@
 		
 		var defaultCode = "import turtle\n\nt = turtle.Turtle()";
 
+		// when submit button is pressed
 		function showSubmissionModal() {
 			var dataURL = document.getElementById('turtle-canvas').toDataURL();      
       		document.getElementById('turtle-image').src = dataURL;
@@ -128,6 +130,7 @@
       		$('#myModal').modal();      		
 		}
 
+		// when submit button in the modal is pressed
 		function submitToBackend() {
 			var date = new Date();
 			var data = {
@@ -140,7 +143,6 @@
 			}
 
 			console.log(data);
-			// TODO: post this to firebase
 			myDataRef.push(data, function(error) {
 				if (error) {
 					alert('Error in submission!');
@@ -172,6 +174,7 @@
 		        autofocus: true
 			});
 
+			// add shortcuts for editor
 			shortcut.add("Meta+Enter",function() {
 				runit();
 			},{'type':'keydown',
@@ -186,13 +189,7 @@
 			});
 
 			myCodeMirror.setValue(spiralCode);
-
-			myDataRef.on('value', function(snapshot) {
-				console.log(snapshot.val());
-			});
 		})
-
-
 	</script> 
 </head>
 <body>
