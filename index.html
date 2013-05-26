@@ -54,7 +54,7 @@
 			myDataRef = new Firebase('https://turtlegram.firebaseio.com/posts');
 
 			myDataRef.on('value', function(snapshot) {
-				
+				$('#turtlegram-gallery').html('');
 				var data = snapshot.val()
 				console.log(data);
 				for (var key in data) {
