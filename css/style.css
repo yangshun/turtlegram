@@ -1,8 +1,13 @@
 /* General */
 
+html {
+  height: 100%;
+}
+
 body {
   background: #d8d8d8 url('../img/brillant.png') repeat;
   font-family: "proxima-nova", sans-serif;
+  height: 100%;
 }
 
 * {
@@ -188,6 +193,7 @@ hr {
   -webkit-box-shadow: 0px 0px 4px #ccc;
   box-shadow: 0px 0px 4px #ccc;*/
   margin-bottom: 50px;
+  min-height: 100%;
 }
 
 /* Landing page */
