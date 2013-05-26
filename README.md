@@ -19,6 +19,24 @@ To run the application:
     $ python turtlegram.py
 
 
+## Heroku Commands
+
+To use Heroku commands, make sure you installed the Heroku toolkit, and that you are properly set up to update to
+Heroku
+
+To run Heroku server locally:
+
+    $ foreman start
+
+To push to heroku:
+    
+    $ git push heroku master
+
+To push a local branch to heroku:
+
+    $ git push heroku localbranch:master
+
+
 ## Third-party APIs/Services
 
 - **Front-end HTML/CSS**: Bootstrap 2.3.2
