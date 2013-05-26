@@ -47,6 +47,30 @@
 	<title>TurtleGram</title>
 	<script type="text/javascript"> 
 		
+		var myDataRef;
+
+		$(document).ready(function() {
+
+			myDataRef = new Firebase('https://turtlegram.firebaseio.com/posts');
+
+			myDataRef.on('value', function(snapshot) {
+				$('#turtlegram-gallery').html('');
+				var data = snapshot.val()
+				console.log(data);
+				for (var key in data) {
+					var $post = $('<div></div>').addClass('turtlegram-post');
+					var $title = $('<h4></h4>').addClass('turtlegram-post-title').text(data[key].title);
+					var $name = $('<p></p>').html('<strong>' + data[key].creator + '</strong>');
+					var $img = $('<img/>').addClass('turtlegram-post-img').attr('src', data[key].image_url);
+					$post.append($title);
+					$post.append($name);
+					$post.append($img);
+					$('#turtlegram-gallery').append($post);
+				}
+			});
+		})
+
+
 	</script> 
 </head>
 <body>
@@ -67,30 +91,15 @@
 	</header>
 
 	<div class="container" id="main-content">
-		<div class="row turtle-banner">
+		<div class="row">
 			<div class="span12">
-				<img src="img/turtlegram-logo.png">
-				<h1>TurtleGram</h1>
-				<h3>CS1010S Python Turtle Design Contest</h3>
+				<h1>TurtleGrams Gallery</h1>
+				<p>Create your own awesome TurtleGram <a href="create.html">here</a> and share them with the world!</p>
+				<hr/>
 			</div>
 		</div>
 		<div class="row">
-			<div class="span12" style="text-align:center; padding-top: 20px; padding-bottom:20px;">
-				<button class="button create-button" style="float:none"><a href="create.html"><h3>Start Creating Now!</h3></a></button>
-			</div>
-		</div>
-		<div class="row">
-			<div class="span4">
-				<h4>Fast and Easy to Learn</h4>
-				<p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat.</p>
-			</div>
-			<div class="span4">
-				<h4>Dedicated Teaching Team</h4>
-				<p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat.</p>
-			</div>
-			<div class="span4">
-				<h4>Creative Contests</h4>
-				<p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat.</p>
+			<div class="span12" id="turtlegram-gallery">
 			</div>
 		</div>
 	</div>
