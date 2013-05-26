@@ -1,4 +1,5 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, send_from_directory
+import os
 import urllib2
 import json
 
@@ -28,6 +29,11 @@ def view(post_id):
 	data = json.load(urllib2.urlopen(url))
 	print data
 	return render_template('view.html', post_id=post_id, post_data=data)
+
+@app.route('/favicon.ico')
+def favicon():
+    return send_from_directory(os.path.join(app.root_path, 'static'),
+                               'img/favicon.ico', mimetype='image/vnd.microsoft.icon')
 
 if __name__ == '__main__':
     app.run()
