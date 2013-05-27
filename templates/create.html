@@ -19,28 +19,28 @@
 		// get a reference to your pre element for output
 		// configure the output function
 		// call Sk.importMainWithBody()
-		function runit() { 
-			var prog = myCodeMirror.getValue();
-			if ($('#turtle-animation').is(":checked")) {
-				
-				var lines = prog.split('\n');
-				// console.log(lines);
-				for (var i = 0; i < lines.length; i++) {
-					if (lines[i].indexOf('turtle.Turtle()') != -1) {
-						var turtle_var = $.trim(lines[i].split('=')[0]);
-						lines.splice(i+1, 0, turtle_var + '.speed(0)');
-					}
-				}
-				prog = lines.join('\n');
-			}
+		function runit(run_without_animation) { 
+            var prog = myCodeMirror.getValue();
+            if ($('#turtle-animation').is(":checked") || run_without_animation) {
+                
+                var lines = prog.split('\n');
+                // console.log(lines);
+                for (var i = 0; i < lines.length; i++) {
+                    if (lines[i].indexOf('turtle.Turtle()') != -1) {
+                        var turtle_var = $.trim(lines[i].split('=')[0]);
+                        lines.splice(i+1, 0, turtle_var + '.speed(0)');
+                    }
+                }
+                prog = lines.join('\n');
+            }
 
-			var mypre = document.getElementById("output"); 
-			mypre.innerHTML = ''; 
-			Sk.canvas = "turtle-canvas";
-			Sk.pre = "output";
-			Sk.configure({output:outf, read:builtinRead}); 
-			eval(Sk.importMainWithBody("<stdin>",false,prog)); 
-		} 
+            var mypre = document.getElementById("output"); 
+            mypre.innerHTML = ''; 
+            Sk.canvas = "turtle-canvas";
+            Sk.pre = "output";
+            Sk.configure({output:outf, read:builtinRead}); 
+            eval(Sk.importMainWithBody("<stdin>",false,prog)); 
+        } 
 
 		// clears the editor
 		function clearEditor() {
@@ -131,6 +131,12 @@
 		        autofocus: true
 			});
 
+			myCodeMirror.on("update", function() {
+				if ($('#turtle-instant').is(":checked")) {
+					runit(true);
+				}
+			});
+
 			// add shortcuts for editor
 			shortcut.add("Meta+Enter",function() {
 				runit();
@@ -172,6 +178,10 @@
 					<label class="checkbox">
 						<input type="checkbox" id="turtle-animation"/> 
 						Draw without animation
+					</label>
+					<label class="checkbox">
+						<input type="checkbox" id="turtle-instant"/> 
+						Draw as you code
 					</label>
 						Code Samples: 
 					<a href="#!" onclick="setCode(this)" data-code="circle">Circle</a> |
