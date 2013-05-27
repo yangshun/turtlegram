@@ -1,11 +1,9 @@
 from flask import Flask, render_template, send_from_directory
-from flask_sslify import SSLify
 import os
 import urllib2
 import json
 
 app = Flask(__name__)
-sslify = SSLify(app)
 
 @app.route('/')
 def index():
