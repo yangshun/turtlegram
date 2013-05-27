@@ -290,6 +290,23 @@ hr {
   border-radius: 4px;
 }
 
+/* View page */
+
+.post-details {
+  padding:20px;
+  padding-top: 10px;
+  background-color: #fff;
+  border-radius: 4px;
+  -moz-box-shadow: 1px 1px 1px #999;
+  -webkit-box-shadow: 1px 1px 1px #999;
+  box-shadow: 1px 1px 1px #999;
+}
+
+.post-details p {
+  font-size: 16px;
+  line-height: 16px;
+}
+
 /* Coding page */
 
 #turtle-canvas, #turtle-image {

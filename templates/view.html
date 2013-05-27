@@ -98,20 +98,28 @@
         <div class="row">
             <div class="span12">
                 <h1>{{post_data.title}}</h1>
-                <p><strong>Creator: </strong>{{post_data.creator}}</p>
-                <p><strong>Description: </strong>{{post_data.description}}</p>
-                <div class="fb-like" data-send="true" data-width="450" data-show-faces="true"></div>
                 <hr/>
             </div>
         </div>
         <div class="row">
-            <div class="span5">         
-                <h3>Image</h3>
-                <canvas id="turtle-canvas" width="380" height="380"></mycanvas> 
+            <div class="span5">     
+                <div>
+                    <canvas id="turtle-canvas" width="380" height="380"></mycanvas>
+                </div>
+                <br/>
+                <div class="fb-like" data-send="true" data-width="450" data-show-faces="true"></div>
             </div>
             <div class="span7">
-                <h3>Comments</h3>
-                <div class="fb-comments" data-href="http://www.turtlegram.com/view/{{post_id}}" data-width="540" data-num-posts="10"></div>
+                <div class="post-details">
+                    <h3>Creator</h3>
+                    <p>{{post_data.creator}}</p>
+                    <h3>Description</h3>
+                    <p>{{post_data.description}}</p>
+                    <hr/>
+                    <h4>Comments</h4>
+                    <div class="fb-comments" data-href="http://www.turtlegram.com/view/{{post_id}}" data-width="500" data-num-posts="10"></div>
+
+                </div>
             </div>
             <div class="span7" style="display:none">
                 <h3>Code</h3>
