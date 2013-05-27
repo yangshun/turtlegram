@@ -62,6 +62,9 @@
 				case 'circle':
 					myCodeMirror.setValue(circleCode);
 					break;
+				case 'koch':
+					myCodeMirror.setValue(kochCode);
+					break;
 			}
 			return false;
 		}
@@ -72,6 +75,8 @@
 		var circleCode = "import turtle\n\nt = turtle.Turtle()\n\nx = 2\n\nfor i in range(180):\n\tt.forward(x)\n\tt.left(2)\n";
 
 		var starCode = "import turtle\n\nt = turtle.Turtle()\n\nn = 5\nx = 50\n\nfor i in range(n*2):\n\t\tt.forward(x)\n\t\tif i%2 == 0:\n\t\t\tt.left(180-36)\n\t\telse:\n\t\t\tt.right(90-36/2)";
+
+		var kochCode = "import turtle\nt = turtle.Turtle()\nt.setpos(0, -40)\ntotallength = 300\nangle = 120\nsides = 360/angle\ndef drawkoch(level):\n\tt.color('white')\n\tt.left(90)\n\tt.forward(180)\n\tt.right(150)\n\tt.color('black')\t\n\tfor i in range(sides):\n\t\tdrawline(level,totallength)\n\t\tt.right(angle)\ndef drawline(x,len):\n\tif x==1 : t.forward(len)\n\telse:\n\t\tdrawline(x-1,len/sides)\n\t\tt.left(180-angle)\n\t\tdrawline(x-1,len/sides)\n\t\tt.right(angle)\n\t\tdrawline(x-1,len/sides)\n\t\tt.left(180-angle)\n\t\tdrawline(x-1,len/sides)\ndrawkoch(6)\n\t\t"
 		
 		var defaultCode = "import turtle\n\nt = turtle.Turtle()";
 
@@ -186,7 +191,8 @@
 						Code Samples: 
 					<a href="#!" onclick="setCode(this)" data-code="circle">Circle</a> |
 					<a href="#!" onclick="setCode(this)" data-code="star">Star</a> |
-					<a href="#!" onclick="setCode(this)" data-code="spiral">Spiral</a> 
+					<a href="#!" onclick="setCode(this)" data-code="spiral">Spiral</a> |
+					<a href="#!" onclick="setCode(this)" data-code="koch">Koch</a> 
 					<strong style="float:right">Tip: Press Ctrl/Cmd+Enter to run</strong><br/><br/>
 				
 					<br/>
