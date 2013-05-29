@@ -83,7 +83,7 @@
 
 		// when submit button is pressed
 		function showSubmissionModal() {
-			var dataURL = document.getElementById('turtle-canvas').toDataURL();      
+			var dataURL = document.getElementById('turtle-canvas').toDataURL("image/jpeg");      
       		document.getElementById('turtle-image').src = dataURL;
       		
 			$('#myModal').on('shown', function() {
