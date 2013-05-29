@@ -3,10 +3,11 @@
     {% block fb_meta_tags %}
     <meta property="og:title" content="{{post_data.title}} by {{post_data.creator}}">
     <meta property="og:description" content="{{post_data.description}}">
-    <meta property="og:image" content="http://www.turtlegram.com/static/img/icon-100.png">
+    <meta property="og:image" content="{{post_data.image_url}}">
     {% endblock %}
 
     {% block scripts %}
+
     <script type="text/javascript"> 
         // output functions are configurable.  This one just appends some text
         // to a pre element.

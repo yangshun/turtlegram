@@ -1,6 +1,7 @@
 	{% extends 'base.html' %}
 
 	{% block scripts %}
+	<script type="text/javascript" src="//api.filepicker.io/v1/filepicker.js"></script>
 	<script type="text/javascript"> 
 		// output functions are configurable.  This one just appends some text
 		// to a pre element.
@@ -93,34 +94,51 @@
 
 		// when submit button in the modal is pressed
 		function submitToBackend() {
-			var date = new Date();
-			var data = {
-				title: $('#title').val(),
-				creator: $('#creator').val(),
-				description: $('#description').val(),
-				code: myCodeMirror.getValue(),
-				image_url: $('#turtle-image').attr('src'),
-				date: date.getTime()
+			if ($('#title').val() == '' || $('#creator').val() == '' || $('#description').val() == '') {
+				alert('Please fill in all the fields');
+				return;
 			}
-
-			console.log(data);
-			myDataRef.push(data, function(error) {
-				if (error) {
-					alert('Error in submission!');
-				} else {
-					// keep the modal after saving to firebase is done:
-					$('#myModal').modal('hide');
-					window.location = '{{url_for("gallery")}}';
-
+			filepicker.store($('#turtle-image').attr('src').split(',', 2)[1], {
+				mimetype: 'image/jpeg',
+				location: 'S3',
+				base64decode: true
+			}, function(FPFile) {
+				
+				var date = new Date();
+				var data = {
+					title: $('#title').val(),
+					creator: $('#creator').val(),
+					description: $('#description').val(),
+					code: myCodeMirror.getValue(),
+					image_url: FPFile.url,
+					date: date.getTime()
 				}
-			})
+
+				console.log(data);
+				myDataRef.push(data, function(error) {
+					if (error) {
+						alert('Error in submission!');
+					} else {
+						// keep the modal after saving to firebase is done:
+						$('#myModal').modal('hide');
+						window.location = '{{url_for("gallery")}}';
+
+					}
+				})
+			}, function(FPError) {
+				console.log(FPError);
+				alert('An error occurred');
+				return;
+			});
+
+			
 		}
 
 		var myCodeMirror;
 		var myDataRef;
 
 		$(document).ready(function() {
-
+			filepicker.setKey('Auvb1nt9SeuVdATAEpcjxz');
 			myDataRef = new Firebase('https://turtlegram.firebaseio.com/posts');
 
 			myCodeMirror = CodeMirror.fromTextArea(document.getElementById("yourcode"), {
