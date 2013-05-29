@@ -3,6 +3,7 @@
 	{% block scripts %}
 	<script type="text/javascript" src="//api.filepicker.io/v1/filepicker.js"></script>
 	<script type="text/javascript"> 
+
 		// output functions are configurable.  This one just appends some text
 		// to a pre element.
 		function outf(text) { 
@@ -83,9 +84,9 @@
 
 		// when submit button is pressed
 		function showSubmissionModal() {
-			var dataURL = document.getElementById('turtle-canvas').toDataURL("image/jpeg");      
+
+			var dataURL = document.getElementById('turtle-canvas').toDataURL();      
       		document.getElementById('turtle-image').src = dataURL;
-      		
 			$('#myModal').on('shown', function() {
 				$('#title').focus();
 			});
@@ -98,6 +99,7 @@
 				alert('Please fill in all the fields');
 				return;
 			}
+			$('#loader').css('opacity', 1);
 			filepicker.store($('#turtle-image').attr('src').split(',', 2)[1], {
 				mimetype: 'image/jpeg',
 				location: 'S3',
@@ -117,8 +119,10 @@
 				console.log(data);
 				myDataRef.push(data, function(error) {
 					if (error) {
+						$('#loader').css('opacity', 0);
 						alert('Error in submission!');
 					} else {
+						$('#loader').css('opacity', 0);
 						// keep the modal after saving to firebase is done:
 						$('#myModal').modal('hide');
 						window.location = '{{url_for("gallery")}}';
@@ -128,10 +132,9 @@
 			}, function(FPError) {
 				console.log(FPError);
 				alert('An error occurred');
+				$('#loader').css('opacity', 0);
 				return;
-			});
-
-			
+			});			
 		}
 
 		var myCodeMirror;
@@ -259,6 +262,7 @@
 					    </div>
 					</div>
 				</form>
+				<center><img id="loader" src="{{url_for('static', filename='img/ajax-loader.gif')}}" style="opacity:0"/></center>
 		  	</div>
 		  	<div class="modal-footer">
 		  		<button class="button submit-button" onclick="submitToBackend()">Submit</button>
