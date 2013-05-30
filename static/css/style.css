@@ -284,6 +284,8 @@ hr {
   color: #FF9900;
   text-shadow: none;
   font-weight: 600;
+  white-space:nowrap;
+  overflow:hidden;
 }
 
 .turtlegram-post-img {
